@@ -5,6 +5,4 @@ class env():
    FILE = "test_upload.xlsx"
 
    GET_DEVICE = "/devices/api/v1/device/name/"
-
-   def getFile(self):
-      return self.FILE 
+   CREATE_DEVICE = '/devices/api/v1/device/'
