@@ -6,3 +6,4 @@ class env():
 
    GET_DEVICE = "/devices/api/v1/device/name/"
    CREATE_DEVICE = '/devices/api/v1/device/'
+   VERIFY_DEVICE = '/devices/api/v1/device/filter/all/1/10'

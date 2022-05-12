@@ -19,28 +19,40 @@ def get_sheet():
     
 
 def run_sheet(sheet):
+    repeat_devices = 0
+    created_devices = 0
+
     if sheet.max_row > 0:
         indice = 1
         while indice <= sheet.max_row:
             cell_name_B = 'B' + str(indice)
             cell_name_D = 'D' + str(indice)
-            if confirm_device(sheet[cell_name_B].value):
+            if confirm_device(sheet[cell_name_D].value):
                 print(f"Device {sheet[cell_name_B].value} already exist")
+                repeat_devices = repeat_devices + 1
             else :
-                create_device(sheet, cell_name_B, cell_name_D)    
-            
+                create_device(sheet, cell_name_B, cell_name_D)
+                created_devices = created_devices + 1     
             indice = indice + 1
 
+        print(f"Process finish => devices created: {created_devices} | devices repeats: {repeat_devices} " )
 
-def confirm_device(name):
-    url = f"{constants.URL_BASE}{constants.GET_DEVICE}{name}"
-    response = requests.get(url=url, headers={"x-api": constants.DEVICE_TOKEN}, verify=False)
+
+def confirm_device(ip):
+
+    data = {
+        "name": ip,
+        "tags": []
+    }
+
+    url = f"{constants.URL_BASE}{constants.VERIFY_DEVICE}"
+    response = requests.post(url=url, json=data, headers={"x-api": constants.DEVICE_TOKEN}, verify=False)
     try: 
         device = response.json()
     except: 
         pass
 
-    if len(device) > 0:
+    if len(device["data"]) > 0:
         return True
     else:
         return False       
@@ -66,7 +78,7 @@ def create_device(sheet, hostname, ip):
     response = requests.post(url=url, json= data_device, headers={"x-api": constants.DEVICE_TOKEN}, verify=False)
     try:
         res = response.json()
-        print(res)
+        print(res, sheet[hostname].value)
     except:
         print("Fail to create")
 
@@ -79,34 +91,4 @@ def main():
 if __name__ == '__main__':
     main()
 
-
-# device_family: "null"
-# device_type: "null"
-# guid: "null"
-# host: "MUMEXCHL4005"
-# id: 33841
-# ip: "10.221.16.186"
-# iptransport: "10.221.16.186"
-# model: "cisco_ios"
-# name: "MUMEXCHL4005"
-# origin: null
-# serial_number: "null"
-# site: {name: "EULOGIO PARRA (HGDL0108)", latitude: "20.687", longitude: "-103.368",…}
-# site_id: 912
-# status: "active"
-# tag: "{}"
-# type: "cisco_ios"
-# vendor: "Cisco"
-
-
-# host: "MUMEXPAZ4041"
-# id_confparameters: "5ffc8910ffaf1d68559f10b6"
-# ip: "10.221.16.187"
-# model: "cisco"
-# name: "MUMEXPAZ4041"
-# password_template: 1
-# status: "active"
-# tag: "{}"
-# type: "cisco_nxos"
-# vendor: "Cisco"
 
