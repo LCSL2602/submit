@@ -1,22 +1,12 @@
 from distutils.command.upload import upload
 import requests as requests
-import openpyxl
-from pathlib import Path
-import json
+import get_file_class
 
 
 from envs import env
 
 constants = env.env()
 
-
-def get_sheet():
-    upload_file = constants.FILE
-    xls_file = Path('./', upload_file)
-    wb_obj = openpyxl.load_workbook(xls_file)
-    sheet = wb_obj.active
-    return sheet
-    
 
 def run_sheet(sheet):
     repeat_devices = 0
@@ -84,7 +74,7 @@ def create_device(sheet, hostname, ip):
 
 
 def main():
-    sheet = get_sheet()
+    sheet = get_file_class.get_sheet(constants.FILE)
     run_sheet(sheet)
 
 
