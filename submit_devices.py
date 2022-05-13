@@ -1,4 +1,3 @@
-from distutils.command.upload import upload
 import requests as requests
 import get_file_class
 
@@ -22,10 +21,13 @@ def run_sheet(sheet):
                 repeat_devices = repeat_devices + 1
             else :
                 create_device(sheet, cell_name_B, cell_name_D)
-                created_devices = created_devices + 1     
+                created_devices = created_devices + 1
+
+            if sheet[cell_name_D].value is None:
+                break
             indice = indice + 1
 
-        print(f"Process finish => devices created: {created_devices} | devices repeats: {repeat_devices} " )
+        print(f"Process finish => devices created: {created_devices} | devices repeats: {repeat_devices} ")
 
 
 def confirm_device(ip):
@@ -50,22 +52,21 @@ def confirm_device(ip):
 
 def create_device(sheet, hostname, ip):
     data_device = {
-        "host" : sheet[hostname].value,
+        "host": sheet[hostname].value,
         "id_confparameters": "5ffc8910ffaf1d68559f10b6", # Default config
         "ip": sheet[ip].value,
-        "model":"cisco",
-        "name" : sheet[hostname].value,
-        "password_template" : 1 ,
-        "status" : "active",
-        "type" : "cisco_ios",
-        "vendor" : "Cisco",
+        "model": "cisco",
+        "name": sheet[hostname].value,
+        "password_template": 2,
+        "status": "active",
+        "type": "cisco_ios",
+        "vendor": "Cisco",
         "tag": '{}'
     }
 
     url = f"{constants.URL_BASE}{constants.CREATE_DEVICE}"
-    #data_device = json.dumps(data_device, indent= 4)
 
-    response = requests.post(url=url, json= data_device, headers={"x-api": constants.DEVICE_TOKEN}, verify=False)
+    response = requests.post(url=url, json=data_device, headers={"x-api": constants.DEVICE_TOKEN}, verify=False)
     try:
         res = response.json()
         print(res, sheet[hostname].value)

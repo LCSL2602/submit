@@ -14,6 +14,7 @@ def run(file):
         cell_host = f'B{index}'
         cell_ip = f'D{index}'
         id_device = get_id(file[cell_ip].value)
+        print(id_device)
         if id_device != 0:
             confirm_config_retriever(id_device, file[cell_ip].value, file[cell_host].value)
             index = index + 1
@@ -58,12 +59,12 @@ def confirm_config_retriever(id_device, ip, hostname):
             message = f"The configuration for device:{ip} does not exist"
             err = response.json()['error']
 
-        if response.status_code == 200 and response['status'] == "notok":
+        if response.status_code == 200 and response.ok is False:
             message = f"The configuration for device:{ip} has some issues"
             err = response.json()['error']
 
-        if response.status_code == 200 and response['status'] == "ok":
-            message = f"{response['configuration']}"
+        if response.status_code == 200 and response.ok is True:
+            message = f"Correct"
             err = None
 
         config = (hostname, ip, message, err)
