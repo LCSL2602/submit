@@ -8,4 +8,3 @@ def get_sheet(upload_file):
     sheet = wb_obj.active
     return sheet
 
-

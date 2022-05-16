@@ -19,7 +19,7 @@ def run_sheet(sheet):
             if confirm_device(sheet[cell_name_D].value):
                 print(f"Device {sheet[cell_name_B].value} already exist")
                 repeat_devices = repeat_devices + 1
-            else :
+            else:
                 create_device(sheet, cell_name_B, cell_name_D)
                 created_devices = created_devices + 1
 
@@ -30,7 +30,7 @@ def run_sheet(sheet):
         print(f"Process finish => devices created: {created_devices} | devices repeats: {repeat_devices} ")
 
 
-def confirm_device(ip):
+def confirm_device(ip) -> bool:
 
     data = {
         "name": ip,
@@ -50,7 +50,7 @@ def confirm_device(ip):
         return False       
 
 
-def create_device(sheet, hostname, ip):
+def create_device(sheet, hostname, ip) -> int:
     data_device = {
         "host": sheet[hostname].value,
         "id_confparameters": "5ffc8910ffaf1d68559f10b6", # Default config
@@ -70,8 +70,10 @@ def create_device(sheet, hostname, ip):
     try:
         res = response.json()
         print(res, sheet[hostname].value)
+        return res
     except:
         print("Fail to create")
+        return 0
 
 
 def main():

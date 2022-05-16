@@ -14,6 +14,7 @@ def run_file(file):
         if id_device != 0:
             init_confi(id_device, "5ffc8910ffaf1d68559f10b6")
             index = index + 1
+            print(f"{index} {file[cell_host].value} {file[cell_ip].value}")
         else:
             break
 
