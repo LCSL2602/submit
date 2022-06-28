@@ -16,3 +16,11 @@ def modify_file(upload_file, data):
     sheet = wb.active
     sheet.append(data)
     wb.save(upload_file)
+
+
+def create_file_dynamic(filename, colum, title):
+    wb = openpyxl.Workbook()
+    note = wb.active
+    note.title = title
+    note.append(colum)
+    wb.save(filename)

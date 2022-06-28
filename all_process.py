@@ -3,7 +3,7 @@ import requests
 import get_file_class
 import init_config
 import submit_devices
-
+import sys
 from envs import env
 
 constants = env.env()
@@ -32,7 +32,8 @@ def run_file(file):
 
 
 def main():
-    file = get_file_class.get_sheet(constants.FILE)
+    print(sys.argv[1])
+    file = get_file_class.get_sheet(sys.argv[1])
     run_file(file)
 
 

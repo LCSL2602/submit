@@ -1,7 +1,6 @@
 import requests as requests
 import get_file_class
 
-
 from envs import env
 
 constants = env.env()
@@ -31,29 +30,26 @@ def run_sheet(sheet):
 
 
 def confirm_device(ip) -> bool:
-
     data = {
         "name": ip,
         "tags": []
     }
-
     url = f"{constants.URL_BASE}{constants.VERIFY_DEVICE}"
-    response = requests.post(url=url, json=data, headers={"x-api": constants.DEVICE_TOKEN}, verify=False)
-    try: 
+    try:
+        response = requests.post(url=url, json=data, headers={"x-api": constants.DEVICE_TOKEN}, verify=False)
         device = response.json()
-    except: 
-        pass
-
-    if len(device["data"]) > 0:
-        return True
-    else:
-        return False       
+        if len(device["data"]) > 0:
+            return True
+        else:
+            return False
+    except requests.exceptions.HTTPError as err:
+        return False
 
 
 def create_device(sheet, hostname, ip) -> int:
     data_device = {
         "host": sheet[hostname].value,
-        "id_confparameters": "5ffc8910ffaf1d68559f10b6", # Default config
+        "id_confparameters": "5ffc8910ffaf1d68559f10b6",  # Default config
         "ip": sheet[ip].value,
         "model": "cisco",
         "name": sheet[hostname].value,
@@ -83,5 +79,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-

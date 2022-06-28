@@ -8,18 +8,28 @@ constants = env.env()
 
 
 def run(file):
-    index = 1
-    create_excel_class.create_file()
+    index = 2
+    create_excel_class.create_file_dynamic(
+        filename="Config_retriever_by_devices.xlsx",
+        colum=("HOSTNAME", "IP", "CONFIGURATION", "ERR"),
+        title="config"
+    )
+    create_excel_class.create_file_dynamic(
+        filename="unknown_devices.xlsx",
+        colum=('INDEX', 'HOSTNAME', 'IP'),
+        title="unknown"
+    )
     while file.max_row > 0:
         cell_host = f'B{index}'
-        cell_ip = f'D{index}'
+        cell_ip = f'A{index}'
         id_device = get_id(file[cell_ip].value)
         print(f"id:{id_device}", f"index:{index}")
         if id_device != 0:
             confirm_config_retriever(id_device, file[cell_ip].value, file[cell_host].value)
-            index = index + 1
         else:
-            break
+            create_excel_class.modify_file('unknown_devices.xlsx', (index, file[cell_host].value, file[cell_ip].value))
+
+        index = index + 1
 
 
 def get_id(ip):
@@ -63,7 +73,7 @@ def confirm_config_retriever(id_device, ip, hostname):
             message = f"The configuration for device:{ip} has some issues"
             err = response.json()['error']
 
-        if response.status_code == 200 and response.json()['configuration'] != {}:
+        if response.status_code == 200 and response.json()['status'] == "ok":
             message = f"Correct"
             err = None
 
