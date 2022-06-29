@@ -14,7 +14,7 @@ def run_sheet(sheet):
         indice = 1
         while indice <= sheet.max_row:
             cell_name_B = 'B' + str(indice)
-            cell_name_D = 'D' + str(indice)
+            cell_name_D = 'A' + str(indice)
             if confirm_device(sheet[cell_name_D].value):
                 print(f"Device {sheet[cell_name_B].value} already exist")
                 repeat_devices = repeat_devices + 1

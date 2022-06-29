@@ -27,7 +27,10 @@ def run(file):
         if id_device != 0:
             confirm_config_retriever(id_device, file[cell_ip].value, file[cell_host].value)
         else:
-            create_excel_class.modify_file('unknown_devices.xlsx', (index, file[cell_host].value, file[cell_ip].value))
+            if file[cell_ip].value is not None:
+                create_excel_class.modify_file('unknown_devices.xlsx', (index, file[cell_host].value, file[cell_ip].value))
+            else:
+                break
 
         index = index + 1
 
@@ -83,7 +86,7 @@ def confirm_config_retriever(id_device, ip, hostname):
 
 
 def main():
-    upload_file = get_file_class.get_sheet(constants.FILE)
+    upload_file = get_file_class.get_sheet(constants.FILE, 'Firewall Huawei ')
     run(upload_file)
 
 

@@ -9,7 +9,7 @@ def run_file(file):
     index = 1
     while file.max_row > 0:
         cell_host = f'B{index}'
-        cell_ip = f'D{index}'
+        cell_ip = f'A{index}'
         id_device = get_id(file[cell_ip].value)
         if id_device != 0:
             init_confi(id_device, "5ffc8910ffaf1d68559f10b6")

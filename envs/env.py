@@ -11,4 +11,3 @@ class env:
     VERIFY_DEVICE = "/devices/api/v1/device/filter/all/1/10"
     INIT_CONFIG = "/conf_retriever/api/v1/conf_retriever/init_config/"
 
-
